@@ -45,7 +45,7 @@ function Core() {
 }
 
 /** Drifting particle field. */
-function Particles({ count = 900 }: { count?: number }) {
+function Particles({ count = 550 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
@@ -92,12 +92,13 @@ function Rig() {
   return null;
 }
 
-export function HeroScene() {
+export function HeroScene({ active = true }: { active?: boolean }) {
   return (
     <Canvas
-      dpr={[1, 1.6]}
+      frameloop={active ? "always" : "never"}
+      dpr={[1, 1.5]}
       camera={{ position: [0, 0.8, 7], fov: 42 }}
-      gl={{ antialias: true, alpha: true }}
+      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       className="!absolute inset-0"
     >
       <color attach="background" args={["#0a0a0b"]} />

@@ -1,8 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import { FiArrowDown, FiArrowRight } from "react-icons/fi";
 import { profile, socials } from "@/content/site";
 import { useRecruiter } from "@/components/providers/recruiter-mode";
@@ -10,6 +10,7 @@ import { useMounted } from "@/lib/hooks";
 import { Terminal } from "@/components/terminal/terminal";
 import { Magnetic } from "@/components/ui/magnetic";
 import { SocialIcon } from "@/components/ui/social-icon";
+import { ScrambleText } from "@/components/ui/scramble-text";
 import { scrollToSection } from "@/lib/scroll";
 
 const HeroScene = dynamic(
@@ -51,17 +52,20 @@ function RotatingWord() {
 export function Hero() {
   const { animationsEnabled } = useRecruiter();
   const mounted = useMounted();
-  const show3D = mounted && animationsEnabled;
+  const heroRef = useRef<HTMLElement>(null);
+  const inView = useInView(heroRef, { amount: 0.08 });
+  const render3D = mounted && animationsEnabled;
 
   return (
     <section
+      ref={heroRef}
       id="hero"
       className="relative flex min-h-screen items-center overflow-hidden pt-20"
     >
       {/* 3D / fallback background */}
       <div className="absolute inset-0 -z-[1]">
-        {show3D ? (
-          <HeroScene />
+        {render3D ? (
+          <HeroScene active={inView} />
         ) : (
           <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_30%,color-mix(in_srgb,var(--color-neon)_8%,transparent),transparent)]" />
         )}
@@ -91,10 +95,14 @@ export function Hero() {
             className="font-display font-bold uppercase leading-[0.82] tracking-tighter"
           >
             <span className="block text-[clamp(2.75rem,9vw,7rem)] text-chalk">
-              Tushar
+              <ScrambleText text="Tushar" speed={45} />
             </span>
-            <span className="block text-[clamp(2.75rem,9vw,7rem)] text-outline">
-              Rathod
+            <span className="block text-[clamp(2.75rem,9vw,7rem)]">
+              <ScrambleText
+                text="Rathod"
+                speed={45}
+                className="text-outline"
+              />
             </span>
           </motion.h1>
 

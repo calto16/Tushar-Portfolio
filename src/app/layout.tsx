@@ -4,6 +4,7 @@ import "./globals.css";
 import { profile } from "@/content/site";
 import { Providers } from "@/components/providers";
 import { Backdrop } from "@/components/ui/backdrop";
+import { ScrollPaths } from "@/components/ui/scroll-paths";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { Preloader } from "@/components/ui/preloader";
 import { Navbar } from "@/components/layout/navbar";
@@ -89,6 +90,7 @@ export default function RootLayout({
         <Providers>
           <Preloader />
           <Backdrop />
+          <ScrollPaths />
           <CustomCursor />
           <Navbar />
           <main className="relative flex-1">{children}</main>
